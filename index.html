@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nanda Apriyani | Informatics Engineering Student & Developer Portfolio</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="Personal portfolio of Nanda Apriyani, an Informatics Engineering student specializing in Web Development, UI/UX Design, and Photography. Explore projects, certificates, and creative works.">
+  <meta name="keywords"
+    content="Nanda Apriyani, Informatics Engineering, Web Developer, Web Designer, Photographer, Tanjungpinang, Universitas Maritim Raja Ali Haji, Lautan Kita, FilMers App, Smart Apartment IoT, Portfolio, Hobbies, Organizations, Blog">
+  <meta name="author" content="Nanda Apriyani">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nanda Apriyani | Portfolio">
+  <meta property="og:description"
+    content="Explore the portfolio of Nanda Apriyani: projects, creative works, and tech stacks.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+  <!-- Loading Animation -->
+  <div id="loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">NANDA APRIYANI</div>
+  </div>
+
+  <!-- Scroll Progress Indicator -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Header Section -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo" id="logo">Nanda<span>.</span></a>
+
+      <!-- Desktop Links -->
+      <nav class="nav-links" id="navLinks">
+        <a href="#hero" class="nav-link-item active">Home</a>
+        <a href="#about" class="nav-link-item">About</a>
+        <a href="#tech" class="nav-link-item">Skills</a>
+        <a href="#projects" class="nav-link-item">Projects</a>
+        <a href="#focus" class="nav-link-item">Focus</a>
+        <a href="#creative" class="nav-link-item">Creative</a>
+        <a href="#articles" class="nav-link-item">Articles</a>
+        <a href="#achievements" class="nav-link-item">Achievements</a>
+        <a href="#organizations" class="nav-link-item">Organizations</a>
+        <a href="#hobbies" class="nav-link-item">Hobbies</a>
+        <a href="#contact" class="nav-link-item">Contact</a>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 15px;">
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle dark mode">
+          <i class="fa-solid fa-moon"></i>
+          <i class="fa-solid fa-sun"></i>
+        </button>
+
+        <!-- Hamburger Icon for Mobile -->
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Open navigation menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content reveal reveal-left active">
+          <!-- Content will be rendered dynamically by JS -->
+        </div>
+        <div class="hero-img-wrapper reveal reveal-right active">
+          <!-- Botanical Wreath Frame (White Wreath) -->
+          <div class="wreath-container">
+            <!-- Botanical SVG Wreath Woven Around -->
+            <svg class="wreath-svg" viewBox="0 0 200 200">
+              <!-- Inner circle border -->
+              <circle cx="100" cy="100" r="75" fill="none" stroke="rgba(255, 255, 255, 0.8)" stroke-width="2" />
+              <!-- Outer circle border (thin, offset) -->
+              <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1"
+                stroke-dasharray="3, 3" />
+
+              <!-- Vines & Leaf flourishes (using paths in white) -->
+              <g stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round">
+                <path d="M 100,20 C 130,20 170,50 175,90 C 180,130 150,170 110,178" />
+                <path d="M 100,20 C 70,20 30,50 25,90 C 20,130 50,170 90,178" />
+
+                <path d="M 175,90 C 185,90 190,80 185,75 C 180,70 175,80 180,85" />
+                <path d="M 25,90 C 15,90 10,80 15,75 C 20,70 25,80 20,85" />
+                <path d="M 100,20 C 100,10 110,5 115,10 C 120,15 110,20 105,18" />
+                <path d="M 100,20 C 100,10 90,5 85,10 C 80,15 90,20 95,18" />
+              </g>
+
+              <!-- Leaves (Filled White with fine borders) -->
+              <g fill="white" stroke="rgba(255,255,255,0.9)" stroke-width="1">
+                <path d="M 115,22 Q 125,12 135,20 Q 125,28 115,22 Z" />
+                <path d="M 85,22 Q 75,12 65,20 Q 75,28 85,22 Z" />
+
+                <path d="M 148,45 Q 162,40 168,52 Q 154,58 148,45 Z" />
+                <path d="M 135,38 Q 146,28 155,36 Q 144,46 135,38 Z" />
+
+                <path d="M 52,45 Q 38,40 32,52 Q 46,58 52,45 Z" />
+                <path d="M 65,38 Q 54,28 45,36 Q 56,46 65,38 Z" />
+
+                <path d="M 170,120 Q 182,130 174,142 Q 162,132 170,120 Z" />
+                <path d="M 152,142 Q 160,155 150,165 Q 142,152 152,142 Z" />
+
+                <path d="M 30,120 Q 18,130 26,142 Q 38,132 30,120 Z" />
+                <path d="M 48,142 Q 40,155 50,165 Q 58,152 48,142 Z" />
+              </g>
+
+              <!-- Flowers (Styled white circles for petals with small centers) -->
+              <g fill="white" stroke="rgba(255,255,255,0.9)" stroke-width="1">
+                <g transform="translate(100, 20)">
+                  <circle cx="0" cy="0" r="5" fill="#fff" />
+                  <circle cx="0" cy="-6" r="3.5" />
+                  <circle cx="6" cy="0" r="3.5" />
+                  <circle cx="0" cy="6" r="3.5" />
+                  <circle cx="-6" cy="0" r="3.5" />
+                  <circle cx="4" cy="-4" r="3.5" />
+                  <circle cx="4" cy="4" r="3.5" />
+                  <circle cx="-4" cy="4" r="3.5" />
+                  <circle cx="-4" cy="-4" r="3.5" />
+                  <circle cx="0" cy="0" r="2" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.8)" />
+                </g>
+                <g transform="translate(160, 48)">
+                  <circle cx="0" cy="0" r="4" fill="#fff" />
+                  <circle cx="0" cy="-5" r="3" />
+                  <circle cx="5" cy="0" r="3" />
+                  <circle cx="0" cy="5" r="3" />
+                  <circle cx="-5" cy="0" r="3" />
+                  <circle cx="3.5" cy="-3.5" r="3" />
+                  <circle cx="3.5" cy="3.5" r="3" />
+                  <circle cx="-3.5" cy="3.5" r="3" />
+                  <circle cx="-3.5" cy="-3.5" r="3" />
+                  <circle cx="0" cy="0" r="1.5" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.8)" />
+                </g>
+                <g transform="translate(40, 48)">
+                  <circle cx="0" cy="0" r="4" fill="#fff" />
+                  <circle cx="0" cy="-5" r="3" />
+                  <circle cx="5" cy="0" r="3" />
+                  <circle cx="0" cy="5" r="3" />
+                  <circle cx="-5" cy="0" r="3" />
+                  <circle cx="3.5" cy="-3.5" r="3" />
+                  <circle cx="3.5" cy="3.5" r="3" />
+                  <circle cx="-3.5" cy="3.5" r="3" />
+                  <circle cx="-3.5" cy="-3.5" r="3" />
+                  <circle cx="0" cy="0" r="1.5" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.8)" />
+                </g>
+                <g transform="translate(178, 98)">
+                  <circle cx="0" cy="0" r="4" fill="#fff" />
+                  <circle cx="0" cy="-5" r="3" />
+                  <circle cx="5" cy="0" r="3" />
+                  <circle cx="0" cy="5" r="3" />
+                  <circle cx="-5" cy="0" r="3" />
+                  <circle cx="0" cy="0" r="1.5" fill="rgba(255,255,255,0.2)" />
+                </g>
+                <g transform="translate(22, 98)">
+                  <circle cx="0" cy="0" r="4" fill="#fff" />
+                  <circle cx="0" cy="-5" r="3" />
+                  <circle cx="5" cy="0" r="3" />
+                  <circle cx="0" cy="5" r="3" />
+                  <circle cx="-5" cy="0" r="3" />
+                  <circle cx="0" cy="0" r="1.5" fill="rgba(255,255,255,0.2)" />
+                </g>
+                <g transform="translate(100, 178)">
+                  <circle cx="0" cy="0" r="4" fill="#fff" />
+                  <circle cx="0" cy="-5" r="3" />
+                  <circle cx="5" cy="0" r="3" />
+                  <circle cx="0" cy="5" r="3" />
+                  <circle cx="-5" cy="0" r="3" />
+                  <circle cx="0" cy="0" r="1.5" fill="rgba(255,255,255,0.2)" />
+                </g>
+              </g>
+            </svg>
+
+            <!-- Circle Profile Photo inside the wreath -->
+            <div class="wreath-photo-center">
+              <img src="assets/hero_profile.jpg" alt="Nanda Apriyani" class="profile-img">
+            </div>
+          </div>
+          <!-- Tiny floating decorations -->
+          <div class="hero-img-decorations">
+            <div class="decor-circle decor-1"></div>
+            <div class="decor-circle decor-2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT ME SECTION -->
+    <section id="about" class="about">
+      <div class="container">
+        <div class="section-title-wrapper reveal reveal-up">
+          <span class="section-tag">About Me</span>
+          <h2 class="section-title">Who I Am</h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-creative-block reveal reveal-left card-base">
+            <p class="creative-quote">
+              <!-- Content will be rendered dynamically by JS -->
+            </p>
+            <span class="creative-author"><!-- Content will be rendered dynamically by JS --></span>
+          </div>
+
+          <div class="about-text-container reveal reveal-right">
+            <!-- Content will be rendered dynamically by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK & EXPERTISE -->
+    <section id="tech" class="tech">
+      <div class="container">
+        <div class="section-title-wrapper reveal reveal-up">
+          <span class="section-tag">Skills</span>
+          <h2 class="section-title">My Tech Stack & Tools</h2>
+        </div>
+
+        <div class="tech-grid" id="skills-grid">
+          <!-- Content will be rendered dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECTS -->
+    <section id="projects" class="projects">
+      <div class="container">
+        <div class="section-title-wrapper reveal reveal-up">
+          <span class="section-tag">Portfolio</span>
+          <h2 class="section-title">Featured Projects</h2>
+        </div>
+
+        <div class="projects-grid" id="projects-grid">
+          <!-- Content will be rendered dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CURRENT FOCUS -->
+    <section id="focus" class="focus">
+      <div class="container">
+        <div class="section-title-wrapper reveal reveal-up">
+          <span class="section-tag">Learning path</span>
+          <h2 class="section-title">Current Focus</h2>
+        </div>
+
+        <div class="focus-grid" id="focus-grid">
+          <!-- Content will be rendered dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CREATIVE WORKS -->
+    <section id="creative" class="creative">
+      <div class="container">
+        <div class="section-title-wrapper reveal reveal-up">
+          <span class="section-tag">Gallery</span>
+          <h2 class="section-title">Creative Works</h2>
+        </div>
+
+        <div class="creative-filters reveal reveal-up">
+          <button class="filter-btn active" data-filter="all">All Works</button>
+          <button class="filter-btn" data-filter="photography">Photography</button>
+          <button class="filter-btn" data-filter="design">Graphic Design</button>
+        </div>
+
+        <div class="creative-grid reveal reveal-scale" id="creative-grid">
+          <!-- Content will be rendered dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ARTICLES SECTION (New Section) -->
+    <section id="articles" class="projects" style="background-color: var(--bg-primary);">
+      <div class="container">
+        <div class="section-title-wrapper reveal reveal-up">
+          <span class="section-tag">Blog</span>
+          <h2 class="section-title">Articles & Thoughts</h2>
+        </div>
+
+        <div class="projects-grid" id="articles-grid">
+          <!-- Content will be rendered dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS & CERTIFICATES -->
+    <section id="achievements" class="achievements">
+      <div class="container">
+        <div class="section-title-wrapper reveal reveal-up">
+          <span class="section-tag">Milestones</span>
+          <h2 class="section-title">Achievements & Certificates</h2>
+        </div>
+
+        <div class="timeline">
+          <!-- Content will be rendered dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ORGANIZATIONS SECTION (New Section) -->
+    <section id="organizations" class="about" style="background-color: var(--bg-secondary);">
+      <div class="container">
+        <div class="section-title-wrapper reveal reveal-up">
+          <span class="section-tag">Activities</span>
+          <h2 class="section-title">Organizations & Activities</h2>
+        </div>
+
+        <div class="about-info-grid" id="organizations-grid"
+          style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top:0;">
+          <!-- Content will be rendered dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- HOBBIES & INTERESTS (New Section) -->
+    <section id="hobbies" class="focus" style="background-color: var(--bg-primary);">
+      <div class="container">
+        <div class="section-title-wrapper reveal reveal-up">
+          <span class="section-tag">Interests</span>
+          <h2 class="section-title">Hobbies & Interests</h2>
+        </div>
+
+        <div class="focus-grid" id="hobbies-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+          <!-- Content will be rendered dynamically by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="contact">
+      <div class="container contact-grid">
+        <div class="contact-info reveal reveal-left">
+          <div class="contact-info-text">
+            <h3>Let's Collaborate</h3>
+            <p>
+              Whether you want to discuss a potential web design project, ask about my IoT work, or just talk
+              photography—feel free to drop a message or connect through my socials!
+            </p>
+          </div>
+
+          <div class="contact-methods">
+            <!-- Left Info details and Quick Email CTA will be injected here by JS -->
+          </div>
+        </div>
+
+        <div class="contact-form-card reveal reveal-right card-base">
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" class="form-control" placeholder="What's this about?" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" class="form-control" placeholder="Your message here..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message <i
+                class="fa-solid fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Image Modal Dialog -->
+  <div class="modal" id="imageModal">
+    <div class="modal-content-wrapper">
+      <button class="modal-close" id="modalClose" aria-label="Close image modal"><i
+          class="fa-solid fa-xmark"></i></button>
+      <img src="" alt="" class="modal-img" id="modalImg">
+      <div class="modal-caption" id="modalCaption"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-socials">
+        <!-- Content will be rendered dynamically by JS -->
+      </div>
+      <p class="footer-copyright">
+        &copy; 2026 Nanda Apriyani. All rights reserved. Designed with 🌸 for engineering & creativity.
+      </p>
+    </div>
+    </header>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Scroll back to top">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- Script File -->
+    <script src="script.js?v=20260625b"></script>
+</body>
+
+</html>

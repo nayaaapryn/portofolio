@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nanda Apriyani | Admin Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- FontAwesome Icons for Skills -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Shared Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Admin Dashboard Styling -->
+    <style>
+        body {
+            background-color: var(--bg-secondary);
+            font-family: var(--font-primary);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Login Screen */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            transition: var(--transition-smooth);
+        }
+
+        .login-card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary-light);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            animation: cardSlide 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        @keyframes cardSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .login-logo span {
+            color: var(--primary);
+        }
+
+        .login-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .login-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .login-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 2px solid var(--card-border);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(255, 117, 151, 0.15);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px 20px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 30px;
+            background-color: var(--primary);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(255, 117, 151, 0.2);
+        }
+
+        .btn-login:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 117, 151, 0.3);
+        }
+
+        .login-error {
+            color: #d84315;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .login-card.shake {
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        /* Admin Workspace Layout */
+        .admin-wrapper {
+            display: none; /* Hide until logged in */
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        /* Navbar Header */
+        .admin-header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-logo {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        .admin-logo span {
+            color: var(--primary);
+        }
+
+        .admin-badge {
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .admin-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-action-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-action-outline:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-action-filled {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background-color: var(--primary);
+            border: 2px solid var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-action-filled:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        body.dark-theme .btn-action-filled {
+            color: #2b1d21;
+        }
+
+        /* Layout Main Grid */
+        .admin-main {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            flex-grow: 1;
+            min-height: calc(100vh - 75px);
+        }
+
+        @media (max-width: 900px) {
+            .admin-main {
+                grid-template-columns: 1fr;
+            }
+            .admin-sidebar {
+                border-right: none !important;
+                border-bottom: 1px solid var(--card-border);
+                position: static !important;
+                height: auto !important;
+                padding: 15px !important;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px !important;
+            }
+            .sidebar-nav-item {
+                flex-grow: 1;
+                margin-bottom: 0 !important;
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        /* Sidebar Nav */
+        .admin-sidebar {
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--card-border);
+            padding: 30px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: sticky;
+            top: 75px;
+            height: calc(100vh - 75px);
+            overflow-y: auto;
+        }
+
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: 1px solid transparent;
+        }
+
+        .sidebar-nav-item:hover {
+            color: var(--text-main);
+            background-color: var(--bg-secondary);
+        }
+
+        .sidebar-nav-item.active {
+            color: var(--primary-dark);
+            background-color: var(--primary-light);
+            border-color: var(--card-border);
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background-color: var(--card-border);
+            margin: 15px 5px;
+        }
+
+        /* Content Pane */
+        .admin-content {
+            padding: 40px;
+            overflow-y: auto;
+            max-height: calc(100vh - 75px);
+        }
+
+        @media (max-width: 576px) {
+            .admin-content {
+                padding: 20px;
+            }
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--card-border);
+            padding-bottom: 15px;
+        }
+
+        .content-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .tab-pane {
+            display: none; /* Hide all initially */
+            animation: paneFade 0.3s ease-out;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes paneFade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form Controls */
+        .admin-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .form-full-width {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 768px) {
+            .admin-form {
+                grid-template-columns: 1fr;
+            }
+            .form-full-width {
+                grid-column: span 1;
+            }
+        }
+
+        .admin-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .admin-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-input,
+        .admin-textarea,
+        .admin-select {
+            padding: 12px 18px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .admin-input:focus,
+        .admin-textarea:focus,
+        .admin-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 8px rgba(255, 117, 151, 0.12);
+        }
+
+        .admin-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Checkbox slider styling */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-slider {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background-color: var(--card-border);
+            border-radius: 20px;
+            transition: var(--transition-smooth);
+        }
+
+        .checkbox-slider::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            transition: var(--transition-smooth);
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked + .checkbox-slider {
+            background-color: #62c370;
+        }
+
+        input[type="checkbox"]:checked + .checkbox-slider::after {
+            left: 27px;
+        }
+
+        /* Items List Management */
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .item-row {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            transition: var(--transition-smooth);
+        }
+
+        .item-row:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
+        }
+
+        .item-visual {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .item-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .item-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .item-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .item-tag {
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .btn-edit {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-edit:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary-dark);
+        }
+
+        .btn-delete {
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+            color: #c62828;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-delete:hover {
+            background-color: #c62828;
+            border-color: #c62828;
+            color: white;
+        }
+
+        /* Modal Overlays for Add/Edit */
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(43, 29, 33, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-modal.active {
+            display: flex;
+        }
+
+        .admin-modal-content {
+            background-color: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: modalFadeIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .modal-close:hover {
+            color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        /* Import File Hidden Form */
+        #importFileInput {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. LOGIN OVERLAY -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card" id="loginCard">
+            <h1 class="login-logo">nanda<span>.</span>admin</h1>
+            <p class="login-desc">Masukkan sandi otorisasi untuk mengedit data portofolio</p>
+            <div class="login-group">
+                <label for="passcode" class="login-label">Kata Sandi (Passcode)</label>
+                <input type="password" id="passcode" class="login-input" placeholder="Masukkan kata sandi..." autocomplete="current-password">
+            </div>
+            <button class="btn-login" id="btnLogin">
+                Otorisasi <i data-lucide="lock"></i>
+            </button>
+            <div class="login-error" id="loginError">Kata sandi salah! Coba lagi.</div>
+        </div>
+    </div>
+
+    <!-- 2. ADMIN WORKSPACE -->
+    <div class="admin-wrapper" id="adminWrapper">
+        
+        <!-- Header -->
+        <header class="admin-header">
+            <div class="admin-brand">
+                <span class="admin-logo">nanda<span>.</span>admin</span>
+                <span class="admin-badge">Database Mode</span>
+            </div>
+            <div class="admin-actions">
+                <button class="btn-action-outline" id="btnExport"><i data-lucide="download"></i> Ekspor Data</button>
+                <button class="btn-action-outline" id="btnImportTrigger"><i data-lucide="upload"></i> Impor Data</button>
+                <button class="btn-action-outline" id="btnReset" style="color: #c62828; border-color: #ffcdd2;"><i data-lucide="refresh-cw"></i> Reset</button>
+                <a href="index.html" class="btn-action-filled"><i data-lucide="eye"></i> Lihat Web</a>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <div class="admin-main">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="admin-sidebar">
+                <div class="sidebar-nav-item active" data-tab="profile-pane"><i data-lucide="user"></i> Profil Utama</div>
+                <div class="sidebar-nav-item" data-tab="about-pane"><i data-lucide="info"></i> Tentang Saya</div>
+                <div class="sidebar-nav-item" data-tab="skills-pane"><i data-lucide="cpu"></i> Keahlian</div>
+                <div class="sidebar-nav-item" data-tab="projects-pane"><i data-lucide="folder-git-2"></i> Proyek</div>
+                <div class="sidebar-nav-item" data-tab="creative-pane"><i data-lucide="sparkles"></i> Karya Kreatif</div>
+                <div class="sidebar-nav-item" data-tab="articles-pane"><i data-lucide="book-open"></i> Artikel / Blog</div>
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-nav-item" data-tab="education-pane"><i data-lucide="graduation-cap"></i> Pendidikan</div>
+                <div class="sidebar-nav-item" data-tab="experience-pane"><i data-lucide="briefcase"></i> Pengalaman</div>
+                <div class="sidebar-nav-item" data-tab="organizations-pane"><i data-lucide="users"></i> Organisasi</div>
+                <div class="sidebar-nav-item" data-tab="hobbies-pane"><i data-lucide="smile"></i> Hobi</div>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="admin-content">
+
+                <!-- 2.1 Tab Pane: Profile -->
+                <div class="tab-pane active" id="profile-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Edit Profil Utama</h2>
+                    </div>
+                    <form class="admin-form" id="form-profile">
+                        <div class="admin-form-group">
+                            <label class="admin-label">Nama Lengkap</label>
+                            <input type="text" name="name" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Peran / Subtitle</label>
+                            <input type="text" name="role" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Lokasi</label>
+                            <input type="text" name="location" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Universitas</label>
+                            <input type="text" name="university" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group form-full-width">
+                            <label class="admin-label">Deskripsi Singkat (Hero)</label>
+                            <textarea name="description" class="admin-textarea" required></textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">URL Foto Profil</label>
+                            <input type="text" name="profileImg" class="admin-input">
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Status Kolaborasi</label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="availableForCollab">
+                                <div class="checkbox-slider"></div>
+                                <span class="checkbox-text" style="font-weight: 600;">Tersedia untuk Kolaborasi (Available)</span>
+                            </label>
+                        </div>
+                        <div class="sidebar-divider form-full-width"></div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Email</label>
+                            <input type="email" name="email" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">GitHub URL</label>
+                            <input type="url" name="github" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">LinkedIn URL</label>
+                            <input type="url" name="linkedin" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Instagram URL</label>
+                            <input type="url" name="instagram" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">URL Download CV (Dokumen)</label>
+                            <input type="text" name="cvUrl" class="admin-input">
+                        </div>
+                        <div class="form-full-width" style="margin-top: 10px;">
+                            <button type="submit" class="btn-action-filled"><i data-lucide="save"></i> Simpan Profil</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 2.2 Tab Pane: About -->
+                <div class="tab-pane" id="about-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Edit Tentang Saya</h2>
+                    </div>
+                    <form class="admin-form" id="form-about">
+                        <div class="admin-form-group form-full-width">
+                            <label class="admin-label">Kutipan Kreatif (Creative Quote)</label>
+                            <textarea name="quote" class="admin-textarea" required></textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Penulis Kutipan (Author)</label>
+                            <input type="text" name="author" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Judul Besar (About Title)</label>
+                            <input type="text" name="title" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group form-full-width">
+                            <label class="admin-label">Paragraf 1</label>
+                            <textarea name="text1" class="admin-textarea" required></textarea>
+                        </div>
+                        <div class="admin-form-group form-full-width">
+                            <label class="admin-label">Paragraf 2</label>
+                            <textarea name="text2" class="admin-textarea" required></textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Judul Kartu 1 (Kiri)</label>
+                            <input type="text" name="card1_title" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Deskripsi Kartu 1</label>
+                            <input type="text" name="card1_desc" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Judul Kartu 2 (Kanan)</label>
+                            <input type="text" name="card2_title" class="admin-input" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Deskripsi Kartu 2</label>
+                            <input type="text" name="card2_desc" class="admin-input" required>
+                        </div>
+                        <div class="form-full-width" style="margin-top: 10px;">
+                            <button type="submit" class="btn-action-filled"><i data-lucide="save"></i> Simpan Tentang Saya</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 2.3 Tab Pane: Skills -->
+                <div class="tab-pane" id="skills-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Manajemen Keahlian</h2>
+                        <button class="btn-action-filled btn-add-item" data-type="skill"><i data-lucide="plus"></i> Tambah Keahlian</button>
+                    </div>
+                    <div class="items-list" id="list-skills"></div>
+                </div>
+
+                <!-- 2.4 Tab Pane: Projects -->
+                <div class="tab-pane" id="projects-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Manajemen Proyek</h2>
+                        <button class="btn-action-filled btn-add-item" data-type="project"><i data-lucide="plus"></i> Tambah Proyek</button>
+                    </div>
+                    <div class="items-list" id="list-projects"></div>
+                </div>
+
+                <!-- 2.5 Tab Pane: Creative Works -->
+                <div class="tab-pane" id="creative-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Manajemen Karya Kreatif</h2>
+                        <button class="btn-action-filled btn-add-item" data-type="creative"><i data-lucide="plus"></i> Tambah Karya</button>
+                    </div>
+                    <div class="items-list" id="list-creative"></div>
+                </div>
+
+                <!-- 2.6 Tab Pane: Articles -->
+                <div class="tab-pane" id="articles-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Manajemen Artikel / Pemikiran</h2>
+                        <button class="btn-action-filled btn-add-item" data-type="article"><i data-lucide="plus"></i> Tambah Artikel</button>
+                    </div>
+                    <div class="items-list" id="list-articles"></div>
+                </div>
+
+                <!-- 2.7 Tab Pane: Education -->
+                <div class="tab-pane" id="education-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Manajemen Riwayat Pendidikan</h2>
+                        <button class="btn-action-filled btn-add-item" data-type="education"><i data-lucide="plus"></i> Tambah Pendidikan</button>
+                    </div>
+                    <div class="items-list" id="list-education"></div>
+                </div>
+
+                <!-- 2.8 Tab Pane: Experience -->
+                <div class="tab-pane" id="experience-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Manajemen Pengalaman Kerja</h2>
+                        <button class="btn-action-filled btn-add-item" data-type="experience"><i data-lucide="plus"></i> Tambah Pengalaman</button>
+                    </div>
+                    <div class="items-list" id="list-experience"></div>
+                </div>
+
+                <!-- 2.9 Tab Pane: Organizations -->
+                <div class="tab-pane" id="organizations-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Manajemen Organisasi</h2>
+                        <button class="btn-action-filled btn-add-item" data-type="organization"><i data-lucide="plus"></i> Tambah Organisasi</button>
+                    </div>
+                    <div class="items-list" id="list-organizations"></div>
+                </div>
+
+                <!-- 2.10 Tab Pane: Hobbies -->
+                <div class="tab-pane" id="hobbies-pane">
+                    <div class="content-header">
+                        <h2 class="content-title">Manajemen Hobi</h2>
+                        <button class="btn-action-filled btn-add-item" data-type="hobby"><i data-lucide="plus"></i> Tambah Hobi</button>
+                    </div>
+                    <div class="items-list" id="list-hobbies"></div>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+
+    <!-- Hidden form for JSON file uploads -->
+    <input type="file" id="importFileInput" accept=".json">
+
+    <!-- 3. MODAL FOR CRUD OPERATIONS -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Tambah / Edit Item</h3>
+                <button class="modal-close" id="btnModalClose"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="modalForm">
+                    <!-- Inputs injected dynamically by JS depending on data type -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-action-outline" id="btnModalCancel">Batal</button>
+                <button class="btn-action-filled" id="btnModalSave">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript Logic for Admin Page -->
+    <script>
+        let portfolioData = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Theme Sync
+            const savedTheme = localStorage.getItem('portfolio-theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                document.body.classList.add('dark-theme');
+            }
+
+            // Passcode authorization
+            const correctPasscode = 'nanda2026';
+            const passcodeVal = sessionStorage.getItem('nanda-admin-logged-in');
+
+            if (passcodeVal === 'true') {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('adminWrapper').style.display = 'flex';
+                initDashboard();
+            }
+
+            document.getElementById('btnLogin').addEventListener('click', attemptLogin);
+            document.getElementById('passcode').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') attemptLogin();
+            });
+
+            function attemptLogin() {
+                const entered = document.getElementById('passcode').value;
+                if (entered === correctPasscode) {
+                    sessionStorage.setItem('nanda-admin-logged-in', 'true');
+                    document.getElementById('loginOverlay').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('loginOverlay').style.display = 'none';
+                        document.getElementById('adminWrapper').style.display = 'flex';
+                        initDashboard();
+                    }, 300);
+                } else {
+                    const card = document.getElementById('loginCard');
+                    const err = document.getElementById('loginError');
+                    card.classList.add('shake');
+                    err.style.display = 'block';
+                    setTimeout(() => { card.classList.remove('shake'); }, 400);
+                }
+            }
+
+            // Dashboard Init
+            function initDashboard() {
+                // Initialize Data
+                portfolioData = JSON.parse(localStorage.getItem('nanda-portfolio-data'));
+                if (!portfolioData) {
+                    alert('Data tidak ditemukan di LocalStorage. Silakan buka halaman portofolio utama (index.html) terlebih dahulu untuk menginisialisasi database.');
+                    window.location.href = 'index.html';
+                    return;
+                } else if (!portfolioData.focus || !portfolioData.organizations || !portfolioData.hobbies || !portfolioData.articles) {
+                    // Redirect to index.html to run the schema migration
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                // Tab Toggle binding
+                const sidebarItems = document.querySelectorAll('.sidebar-nav-item');
+                const panes = document.querySelectorAll('.tab-pane');
+
+                sidebarItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        sidebarItems.forEach(i => i.classList.remove('active'));
+                        panes.forEach(p => p.classList.remove('active'));
+
+                        item.classList.add('active');
+                        const targetPane = item.getAttribute('data-tab');
+                        document.getElementById(targetPane).classList.add('active');
+                    });
+                });
+
+                // Populate Static Forms
+                populateProfileForm();
+                populateAboutForm();
+
+                // Bind Static Form submissions
+                document.getElementById('form-profile').addEventListener('submit', saveProfile);
+                document.getElementById('form-about').addEventListener('submit', saveAbout);
+
+                // Load dynamic items
+                loadSkillsList();
+                loadProjectsList();
+                loadCreativeList();
+                loadArticlesList();
+                loadEducationList();
+                loadExperienceList();
+                loadOrganizationsList();
+                loadHobbiesList();
+
+                // Bind Add Item buttons
+                document.querySelectorAll('.btn-add-item').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const type = btn.getAttribute('data-type');
+                        openAddEditModal(type, null);
+                    });
+                });
+
+                // Database Export/Import/Reset actions
+                document.getElementById('btnExport').addEventListener('click', exportData);
+                document.getElementById('btnImportTrigger').addEventListener('click', () => {
+                    document.getElementById('importFileInput').click();
+                });
+                document.getElementById('importFileInput').addEventListener('change', importData);
+                document.getElementById('btnReset').addEventListener('click', resetDatabase);
+
+                // Modal control bindings
+                document.getElementById('btnModalClose').addEventListener('click', closeModal);
+                document.getElementById('btnModalCancel').addEventListener('click', closeModal);
+                document.getElementById('btnModalSave').addEventListener('click', saveModalItem);
+            }
+
+            // Profile Form Handling
+            function populateProfileForm() {
+                const form = document.getElementById('form-profile');
+                const p = portfolioData.profile;
+                form.name.value = p.name || '';
+                form.role.value = p.role || '';
+                form.location.value = p.location || '';
+                form.university.value = p.university || '';
+                form.description.value = p.description || '';
+                form.profileImg.value = p.profileImg || '';
+                form.availableForCollab.checked = p.availableForCollab === true;
+                form.email.value = p.email || '';
+                form.github.value = p.github || '';
+                form.linkedin.value = p.linkedin || '';
+                form.instagram.value = p.instagram || '';
+                form.cvUrl.value = p.cvUrl || '';
+            }
+
+            function saveProfile(e) {
+                e.preventDefault();
+                const form = document.getElementById('form-profile');
+                portfolioData.profile = {
+                    name: form.name.value,
+                    role: form.role.value,
+                    location: form.location.value,
+                    university: form.university.value,
+                    description: form.description.value,
+                    profileImg: form.profileImg.value,
+                    availableForCollab: form.availableForCollab.checked,
+                    email: form.email.value,
+                    github: form.github.value,
+                    linkedin: form.linkedin.value,
+                    instagram: form.instagram.value,
+                    cvUrl: form.cvUrl.value
+                };
+                saveToLocalStorage();
+                alert('Profil Utama berhasil diperbarui!');
+            }
+
+            // About Form Handling
+            function populateAboutForm() {
+                const form = document.getElementById('form-about');
+                const ab = portfolioData.about;
+                form.quote.value = ab.quote || '';
+                form.author.value = ab.author || '';
+                form.title.value = ab.title || '';
+                form.text1.value = ab.text1 || '';
+                form.text2.value = ab.text2 || '';
+                form.card1_title.value = ab.card1_title || '';
+                form.card1_desc.value = ab.card1_desc || '';
+                form.card2_title.value = ab.card2_title || '';
+                form.card2_desc.value = ab.card2_desc || '';
+            }
+
+            function saveAbout(e) {
+                e.preventDefault();
+                const form = document.getElementById('form-about');
+                portfolioData.about = {
+                    quote: form.quote.value,
+                    author: form.author.value,
+                    title: form.title.value,
+                    text1: form.text1.value,
+                    text2: form.text2.value,
+                    card1_title: form.card1_title.value,
+                    card1_desc: form.card1_desc.value,
+                    card2_title: form.card2_title.value,
+                    card2_desc: form.card2_desc.value
+                };
+                saveToLocalStorage();
+                alert('Tentang Saya berhasil diperbarui!');
+            }
+
+            // 1. Skill Section CRUD
+            function loadSkillsList() {
+                const list = document.getElementById('list-skills');
+                list.innerHTML = portfolioData.skills.map(s => `
+                    <div class="item-row">
+                        <div class="item-info">
+                            <div class="item-visual" style="font-size: 1.5rem; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; color: var(--primary);"><i class="${s.icon || 'fa-solid fa-star'}"></i></div>
+                            <div class="item-details">
+                                <span class="item-title">${s.name}</span>
+                                <span class="item-meta">${s.category || 'No Category'}</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-edit" onclick="editItem('skill', ${s.id})"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-delete" onclick="deleteItem('skills', ${s.id})"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            // 2. Projects Section CRUD
+            function loadProjectsList() {
+                const list = document.getElementById('list-projects');
+                list.innerHTML = portfolioData.projects.map(p => `
+                    <div class="item-row">
+                        <div class="item-info">
+                            <div class="item-visual">${p.emoji || '💻'}</div>
+                            <div class="item-details">
+                                <span class="item-title">${p.title} ${p.featured ? '<span class="item-tag">Featured</span>' : ''}</span>
+                                <span class="item-meta">${p.description.substring(0, 100)}...</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-edit" onclick="editItem('project', ${p.id})"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-delete" onclick="deleteItem('projects', ${p.id})"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            // 3. Creative Section CRUD
+            function loadCreativeList() {
+                const list = document.getElementById('list-creative');
+                list.innerHTML = portfolioData.creative.map(c => `
+                    <div class="item-row">
+                        <div class="item-info">
+                            <div class="item-visual"><img src="${c.img || ''}"></div>
+                            <div class="item-details">
+                                <span class="item-title">${c.title}</span>
+                                <span class="item-meta"><span class="item-tag">${c.category}</span> ${c.desc.substring(0, 60)}...</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-edit" onclick="editItem('creative', ${c.id})"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-delete" onclick="deleteItem('creative', ${c.id})"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            // 4. Articles Section CRUD
+            function loadArticlesList() {
+                const list = document.getElementById('list-articles');
+                list.innerHTML = portfolioData.articles.map(a => `
+                    <div class="item-row">
+                        <div class="item-info">
+                            <div class="item-visual"><img src="${a.img || ''}"></div>
+                            <div class="item-details">
+                                <span class="item-title">${a.title}</span>
+                                <span class="item-meta"><span class="item-tag">${a.date}</span> ${a.excerpt.substring(0, 60)}...</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-edit" onclick="editItem('article', ${a.id})"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-delete" onclick="deleteItem('articles', ${a.id})"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            // 5. Education Timeline CRUD
+            function loadEducationList() {
+                const list = document.getElementById('list-education');
+                list.innerHTML = portfolioData.education.map(e => `
+                    <div class="item-row">
+                        <div class="item-info">
+                            <div class="item-visual">${e.year}</div>
+                            <div class="item-details">
+                                <span class="item-title">${e.school} ${e.highlight ? '<span class="item-tag">Highlight</span>' : ''}</span>
+                                <span class="item-meta">${e.major ? e.major + ' - ' : ''}${e.desc}</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-edit" onclick="editItem('education', ${e.id})"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-delete" onclick="deleteItem('education', ${e.id})"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            // 6. Experience CRUD
+            function loadExperienceList() {
+                const list = document.getElementById('list-experience');
+                list.innerHTML = portfolioData.experience.map(exp => `
+                    <div class="item-row">
+                        <div class="item-info">
+                            <div class="item-visual">${exp.year}</div>
+                            <div class="item-details">
+                                <span class="item-title">${exp.company}</span>
+                                <span class="item-meta"><strong>${exp.role}</strong></span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-edit" onclick="editItem('experience', ${exp.id})"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-delete" onclick="deleteItem('experience', ${exp.id})"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            // 7. Organizations CRUD
+            function loadOrganizationsList() {
+                const list = document.getElementById('list-organizations');
+                list.innerHTML = portfolioData.organizations.map(o => `
+                    <div class="item-row">
+                        <div class="item-info">
+                            <div class="item-visual"><i data-lucide="${o.icon || 'award'}"></i></div>
+                            <div class="item-details">
+                                <span class="item-title">${o.title}</span>
+                                <span class="item-meta">${o.desc}</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-edit" onclick="editItem('organization', ${o.id})"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-delete" onclick="deleteItem('organizations', ${o.id})"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            // 8. Hobbies CRUD
+            function loadHobbiesList() {
+                const list = document.getElementById('list-hobbies');
+                list.innerHTML = portfolioData.hobbies.map(h => `
+                    <div class="item-row">
+                        <div class="item-info">
+                            <div class="item-visual">${h.emoji || '🌟'}</div>
+                            <div class="item-details">
+                                <span class="item-title">${h.name}</span>
+                                <span class="item-meta">${h.desc}</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-edit" onclick="editItem('hobby', ${h.id})"><i data-lucide="edit-3"></i></button>
+                            <button class="btn-delete" onclick="deleteItem('hobbies', ${h.id})"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            }
+
+            // Modal CRUD forms generation
+            let currentItemType = null;
+            let currentItemId = null;
+
+            window.editItem = function(type, id) {
+                let arrayName = type;
+                if (type === 'skill') arrayName = 'skills';
+                if (type === 'project') arrayName = 'projects';
+                if (type === 'organization') arrayName = 'organizations';
+                if (type === 'hobby') arrayName = 'hobbies';
+
+                const array = portfolioData[arrayName];
+                const item = array.find(i => i.id === id);
+                if (item) {
+                    openAddEditModal(type, item);
+                }
+            };
+
+            window.deleteItem = function(arrayName, id) {
+                if (confirm('Apakah Anda yakin ingin menghapus item ini?')) {
+                    portfolioData[arrayName] = portfolioData[arrayName].filter(i => i.id !== id);
+                    saveToLocalStorage();
+                    refreshList(arrayName);
+                }
+            };
+
+            function refreshList(arrayName) {
+                if (arrayName === 'skills') loadSkillsList();
+                if (arrayName === 'projects') loadProjectsList();
+                if (arrayName === 'creative') loadCreativeList();
+                if (arrayName === 'articles') loadArticlesList();
+                if (arrayName === 'education') loadEducationList();
+                if (arrayName === 'experience') loadExperienceList();
+                if (arrayName === 'organizations') loadOrganizationsList();
+                if (arrayName === 'hobbies') loadHobbiesList();
+            }
+
+            function openAddEditModal(type, item) {
+                currentItemType = type;
+                currentItemId = item ? item.id : null;
+
+                const form = document.getElementById('modalForm');
+                const title = document.getElementById('modalTitle');
+                
+                title.textContent = item ? `Edit ${capitalize(type)}` : `Tambah ${capitalize(type)} Baru`;
+                form.innerHTML = ''; // Clear form
+
+                if (type === 'skill') {
+                    form.innerHTML = `
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Nama Keahlian</label>
+                            <input type="text" name="name" class="admin-input" value="${item ? item.name : ''}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Kategori</label>
+                            <select name="category" id="skillCategorySelect" class="admin-input" required style="width:100%; padding:10px; border-radius:var(--radius); border:1px solid var(--card-border); background:var(--bg-secondary); color:var(--text-main);">
+                                <option value="Frontend Development" ${item && item.category === 'Frontend Development' ? 'selected' : ''}>Frontend Development</option>
+                                <option value="Backend & Database" ${item && item.category === 'Backend & Database' ? 'selected' : ''}>Backend & Database</option>
+                                <option value="Design & Workflow Tools" ${item && item.category === 'Design & Workflow Tools' ? 'selected' : ''}>Design & Workflow Tools</option>
+                            </select>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Icon Kategori (FontAwesome class, e.g. fa-code, fa-server, fa-screwdriver-wrench)</label>
+                            <input type="text" name="categoryIcon" id="skillCategoryIconInput" class="admin-input" value="${item ? item.categoryIcon : 'fa-code'}" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">FontAwesome Icon Class (contoh: fa-brands fa-html5, fa-solid fa-database, fa-brands fa-js)</label>
+                            <input type="text" name="icon" class="admin-input" value="${item ? item.icon : 'fa-solid fa-star'}" required>
+                        </div>
+                    `;
+                    
+                    const catSelect = form.querySelector('#skillCategorySelect');
+                    const iconInput = form.querySelector('#skillCategoryIconInput');
+                    catSelect.addEventListener('change', () => {
+                        if (catSelect.value === 'Frontend Development') {
+                            iconInput.value = 'fa-code';
+                        } else if (catSelect.value === 'Backend & Database') {
+                            iconInput.value = 'fa-server';
+                        } else if (catSelect.value === 'Design & Workflow Tools') {
+                            iconInput.value = 'fa-screwdriver-wrench';
+                        }
+                    });
+                } else if (type === 'project') {
+                    form.innerHTML = `
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Judul Proyek</label>
+                            <input type="text" name="title" class="admin-input" value="${item ? item.title : ''}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Emoji Representasi</label>
+                            <input type="text" name="emoji" class="admin-input" value="${item ? item.emoji : '💻'}" placeholder="Contoh: 🌊, 🎬, 🏢" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Deskripsi Proyek</label>
+                            <textarea name="description" class="admin-textarea" required>${item ? item.description : ''}</textarea>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Tag Kategori (dipisah koma)</label>
+                            <input type="text" name="tags" class="admin-input" value="${item ? item.tags.join(', ') : ''}" placeholder="Contoh: Web App, PHP, API Integration" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">GitHub URL (Code Link)</label>
+                            <input type="url" name="codeUrl" class="admin-input" value="${item ? item.codeUrl : ''}">
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Demo URL (Live Link)</label>
+                            <input type="url" name="demoUrl" class="admin-input" value="${item ? item.demoUrl : ''}">
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Path Image File (contoh: assets/project_lautan_kita.png)</label>
+                            <input type="text" name="img" class="admin-input" value="${item ? item.img : 'assets/'}" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Proyek Utama (Featured)</label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="featured" ${item && item.featured ? 'checked' : ''}>
+                                <div class="checkbox-slider"></div>
+                                <span class="checkbox-text">Sematan (Tampilkan badge Featured)</span>
+                            </label>
+                        </div>
+                    `;
+                } else if (type === 'creative') {
+                    form.innerHTML = `
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Judul Karya</label>
+                            <input type="text" name="title" class="admin-input" value="${item ? item.title : ''}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Kategori</label>
+                            <select name="category" class="admin-select" required>
+                                <option value="photography" ${item && item.category === 'photography' ? 'selected' : ''}>Fotografi</option>
+                                <option value="packaging" ${item && item.category === 'packaging' ? 'selected' : ''}>Desain Kemasan</option>
+                                <option value="makeup" ${item && item.category === 'makeup' ? 'selected' : ''}>Tata Rias (Makeup)</option>
+                                <option value="poster" ${item && item.category === 'poster' ? 'selected' : ''}>Poster & Desain</option>
+                                <option value="logo" ${item && item.category === 'logo' ? 'selected' : ''}>Logo & Branding</option>
+                            </select>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Deskripsi Singkat</label>
+                            <textarea name="desc" class="admin-textarea" required>${item ? item.desc : ''}</textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Path Image File (contoh: assets/sunset.png)</label>
+                            <input type="text" name="img" class="admin-input" value="${item ? item.img : 'assets/'}" required>
+                        </div>
+                    `;
+                } else if (type === 'article') {
+                    form.innerHTML = `
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Judul Artikel</label>
+                            <input type="text" name="title" class="admin-input" value="${item ? item.title : ''}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Tanggal Terbit</label>
+                            <input type="text" name="date" class="admin-input" value="${item ? item.date : getCurrentDate()}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Kutipan / Excerpt Singkat</label>
+                            <textarea name="excerpt" class="admin-textarea" required>${item ? item.excerpt : ''}</textarea>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Konten Artikel Lengkap (Gunakan baris baru ganda untuk paragraf baru)</label>
+                            <textarea name="content" class="admin-textarea" style="min-height:220px;" required>${item ? item.content : ''}</textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Image Path Sampul (contoh: assets/poster.png)</label>
+                            <input type="text" name="img" class="admin-input" value="${item ? item.img : 'assets/'}" required>
+                        </div>
+                    `;
+                } else if (type === 'education') {
+                    form.innerHTML = `
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Tahun</label>
+                            <input type="text" name="year" class="admin-input" value="${item ? item.year : ''}" placeholder="Contoh: 2023" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Nama Sekolah / Universitas</label>
+                            <input type="text" name="school" class="admin-input" value="${item ? item.school : ''}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Jurusan / Major (opsional)</label>
+                            <input type="text" name="major" class="admin-input" value="${item ? item.major || '' : ''}" placeholder="Contoh: Jurusan Multimedia">
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Deskripsi Pendidikan</label>
+                            <textarea name="desc" class="admin-textarea" required>${item ? item.desc : ''}</textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Sorot Utama (Highlight)</label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="highlight" ${item && item.highlight ? 'checked' : ''}>
+                                <div class="checkbox-slider"></div>
+                                <span class="checkbox-text">Tandai sebagai kartu utama</span>
+                            </label>
+                        </div>
+                    `;
+                } else if (type === 'experience') {
+                    // Points list string representation
+                    const pts = item ? item.points.map(p => p.replace(/<\/?strong>/g, '')).join('\n') : '';
+                    form.innerHTML = `
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Perusahaan / Klinik</label>
+                            <input type="text" name="company" class="admin-input" value="${item ? item.company : ''}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Jabatan / Role</label>
+                            <input type="text" name="role" class="admin-input" value="${item ? item.role : ''}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Tahun</label>
+                            <input type="text" name="year" class="admin-input" value="${item ? item.year : ''}" placeholder="Contoh: 2022" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Poin-Poin Pekerjaan (Satu baris untuk satu poin)</label>
+                            <textarea name="points" class="admin-textarea" placeholder="Administrasi: Mengelola dokumen ...&#10;Desain: Membuat mockup ..." required>${pts}</textarea>
+                        </div>
+                    `;
+                } else if (type === 'organization') {
+                    form.innerHTML = `
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Nama Organisasi / Kegiatan</label>
+                            <input type="text" name="title" class="admin-input" value="${item ? item.title : ''}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Deskripsi Singkat</label>
+                            <textarea name="desc" class="admin-textarea" required>${item ? item.desc : ''}</textarea>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Lucide Icon Class (contoh: award, compass, music-4, sparkles, users)</label>
+                            <input type="text" name="icon" class="admin-input" value="${item ? item.icon : 'award'}">
+                        </div>
+                    `;
+                } else if (type === 'hobby') {
+                    form.innerHTML = `
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Nama Hobi / Ketertarikan</label>
+                            <input type="text" name="name" class="admin-input" value="${item ? item.name : ''}" required>
+                        </div>
+                        <div class="admin-form-group" style="margin-bottom:15px;">
+                            <label class="admin-label">Emoji Mewakili</label>
+                            <input type="text" name="emoji" class="admin-input" value="${item ? item.emoji : '🌟'}" placeholder="Contoh: 📚, 📸, 🎮" required>
+                        </div>
+                        <div class="admin-form-group">
+                            <label class="admin-label">Deskripsi Hobi</label>
+                            <textarea name="desc" class="admin-textarea" required>${item ? item.desc : ''}</textarea>
+                        </div>
+                    `;
+                }
+
+                document.getElementById('adminModal').classList.add('active');
+                lucide.createIcons();
+            }
+
+            function closeModal() {
+                document.getElementById('adminModal').classList.remove('active');
+                currentItemType = null;
+                currentItemId = null;
+            }
+
+            function saveModalItem() {
+                const form = document.getElementById('modalForm');
+                if (!form.reportValidity()) return;
+
+                let arrayName = currentItemType;
+                if (currentItemType === 'skill') arrayName = 'skills';
+                if (currentItemType === 'project') arrayName = 'projects';
+                if (currentItemType === 'organization') arrayName = 'organizations';
+                if (currentItemType === 'hobby') arrayName = 'hobbies';
+
+                const array = portfolioData[arrayName];
+
+                if (currentItemId !== null) {
+                    // Update
+                    const index = array.findIndex(i => i.id === currentItemId);
+                    if (index !== -1) {
+                        array[index] = extractFormValues(form, currentItemId);
+                    }
+                } else {
+                    // Create
+                    const newId = array.length > 0 ? Math.max(...array.map(i => i.id)) + 1 : 1;
+                    array.push(extractFormValues(form, newId));
+                }
+
+                saveToLocalStorage();
+                refreshList(arrayName);
+                closeModal();
+            }
+
+            function extractFormValues(form, id) {
+                const values = { id };
+                const inputs = form.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox') {
+                        values[input.name] = input.checked;
+                    } else if (input.name === 'tags') {
+                        values[input.name] = input.value.split(',').map(t => t.trim()).filter(t => t.length > 0);
+                    } else if (input.name === 'points') {
+                        values[input.name] = input.value.split('\n')
+                            .map(line => line.trim())
+                            .filter(line => line.length > 0)
+                            .map(line => {
+                                // Add bold formatting to prefix before ':' dynamically if it isn't there already
+                                if (line.includes(':') && !line.startsWith('<strong>')) {
+                                    const parts = line.split(':');
+                                    const prefix = parts.shift();
+                                    return `<strong>${prefix}:</strong>${parts.join(':')}`;
+                                }
+                                return line;
+                            });
+                    } else {
+                        values[input.name] = input.value;
+                    }
+                });
+                return values;
+            }
+
+            // LocalStorage Synchronization
+            function saveToLocalStorage() {
+                localStorage.setItem('nanda-portfolio-data', JSON.stringify(portfolioData));
+            }
+
+            // Helpers
+            function capitalize(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            }
+
+            function getCurrentDate() {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return new Date().toLocaleDateString('id-ID', options);
+            }
+
+            // Export to JSON File
+            function exportData() {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(portfolioData, null, 2));
+                const downloadAnchor = document.createElement('a');
+                downloadAnchor.setAttribute("href", dataStr);
+                downloadAnchor.setAttribute("download", "portfolio_data.json");
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                downloadAnchor.remove();
+            }
+
+            // Import from JSON File
+            function importData(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    try {
+                        const parsed = JSON.parse(evt.target.result);
+                        // Simple validations of keys
+                        if (parsed.profile && parsed.about && parsed.skills && parsed.projects) {
+                            portfolioData = parsed;
+                            saveToLocalStorage();
+                            initDashboard();
+                            alert('Data berhasil diimpor!');
+                        } else {
+                            alert('Format file JSON tidak valid. Pastikan ini adalah file data portofolio.');
+                        }
+                    } catch (err) {
+                        alert('Gagal membaca file JSON. Error: ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+                // Clear input
+                e.target.value = '';
+            }
+
+            // Reset Database
+            function resetDatabase() {
+                if (confirm('PENTING: Apakah Anda yakin ingin menyetel ulang database Anda ke setelan awal pabrikan? Ini akan menghapus semua konten khusus yang telah Anda edit secara permanen!')) {
+                    // Load defaultPortfolioData by clearing and reloading page
+                    localStorage.removeItem('nanda-portfolio-data');
+                    window.location.reload();
+                }
+            }
+
+        });
+    </script>
+</body>
+
+</html>
